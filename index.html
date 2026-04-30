@@ -820,15 +820,15 @@
 
     .case__frame {
       position: absolute;
-      inset: 22px;
-      border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+      inset: 20px;
+      border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
       border-radius: 6px;
-      transition: inset 0.32s var(--ease), border-color 0.32s var(--ease);
+      transition: inset 0.36s var(--ease), border-color 0.36s var(--ease);
       pointer-events: none;
     }
     .case:hover .case__frame {
-      inset: 14px;
-      border-color: color-mix(in srgb, currentColor 55%, transparent);
+      inset: 12px;
+      border-color: color-mix(in srgb, currentColor 50%, transparent);
     }
 
     .case__corner, .case__status {
@@ -861,27 +861,66 @@
     }
     .case--live .case__status .dot { background: #22c55e; }
 
-    .case__wm {
+    /* Tagline (italic serif word) — center of cover */
+    .case__tagline {
       position: absolute;
       inset: 0;
       display: grid;
       place-items: center;
+      padding: 12% 10%;
+      font-family: var(--f-italic);
+      font-style: italic;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      font-size: clamp(28px, 3.4vw, 52px);
+      line-height: 1.0;
+      color: color-mix(in srgb, currentColor 92%, transparent);
+      text-align: center;
+      transition: transform 0.55s var(--ease);
+      pointer-events: none;
+    }
+    .case__tagline > div { max-width: 100%; }
+    .case__tagline .accent { color: var(--indigo); }
+    .case--indigo .case__tagline .accent { color: var(--paper); }
+    .case:hover .case__tagline { transform: scale(1.04); }
+
+    /* Wordmark logo lockup — bottom-left */
+    .case__wm {
+      position: absolute;
+      left: 36px;
+      bottom: 28px;
       font-family: var(--f-display);
       font-weight: 800;
       letter-spacing: -0.04em;
-      font-size: clamp(36px, 7vw, 80px);
+      font-size: clamp(18px, 1.8vw, 24px);
       text-transform: lowercase;
       color: currentColor;
-      text-align: center;
-      padding: 0 24px;
-      transition: transform 0.5s var(--ease), letter-spacing 0.5s var(--ease);
+      line-height: 1;
+      max-width: calc(100% - 72px);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
-    .case:hover .case__wm {
-      transform: scale(1.06);
-      letter-spacing: -0.035em;
-    }
-    .case__wm .dot { color: var(--indigo); }
+    .case__wm .dot { color: var(--indigo); display: inline; }
     .case--indigo .case__wm .dot { color: var(--paper); }
+
+    /* Cover bottom-right "view case" affordance */
+    .case__view {
+      position: absolute;
+      right: 36px;
+      bottom: 28px;
+      font-family: var(--f-mono);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, currentColor 75%, transparent);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: gap 0.3s var(--ease), color 0.3s var(--ease);
+    }
+    .case:hover .case__view { gap: 10px; color: currentColor; }
 
     .case__body {
       padding: 26px 28px 28px;
@@ -1415,7 +1454,9 @@
             <div class="case__frame"></div>
             <div class="case__corner">Case 01</div>
             <div class="case__status"><span class="dot"></span>Demnächst</div>
+            <div class="case__tagline">Schicht<span class="accent">.</span>plan<span class="accent">.</span>system<span class="accent">.</span></div>
             <div class="case__wm">creworga<span class="dot">.</span></div>
+            <div class="case__view">View case <span aria-hidden="true">↗</span></div>
           </div>
           <div class="case__body">
             <h3 class="case__title">Schichtplanung als System.</h3>
@@ -1429,12 +1470,13 @@
             <div class="case__frame"></div>
             <div class="case__corner">Case 02</div>
             <div class="case__status"><span class="dot"></span>Live</div>
+            <div class="case__tagline">vom Beat <span class="accent">zum</span> DJ<span class="accent">.</span></div>
             <div class="case__wm">djlearn<span class="dot">.</span></div>
+            <div class="case__view">djlearn.de <span aria-hidden="true">↗</span></div>
           </div>
           <div class="case__body">
             <h3 class="case__title">Vom Beat zum Club-Ready DJ.</h3>
             <p class="case__tags">Webapp <span class="sep">/</span> E-Learning <span class="sep">/</span> Gamification</p>
-            <span class="case__link">djlearn.de ↗</span>
           </div>
         </a>
 
@@ -1444,12 +1486,13 @@
             <div class="case__frame"></div>
             <div class="case__corner">Case 03</div>
             <div class="case__status"><span class="dot"></span>Live</div>
-            <div class="case__wm">v-itness academy<span class="dot">.</span></div>
+            <div class="case__tagline">Onboarding <span class="accent">ohne</span> Chaos<span class="accent">.</span></div>
+            <div class="case__wm">v-itness<span class="dot">.</span></div>
+            <div class="case__view">vitness-academy.de <span aria-hidden="true">↗</span></div>
           </div>
           <div class="case__body">
             <h3 class="case__title">Onboarding ohne Chaos.</h3>
             <p class="case__tags">Website + App <span class="sep">/</span> E-Learning <span class="sep">/</span> Wix</p>
-            <span class="case__link">vitness-academy.de ↗</span>
           </div>
         </a>
 
@@ -1459,7 +1502,9 @@
             <div class="case__frame"></div>
             <div class="case__corner">Case 04</div>
             <div class="case__status"><span class="dot"></span>Demnächst</div>
+            <div class="case__tagline">Beziehungen <span class="accent">brauchen</span> Input<span class="accent">.</span></div>
             <div class="case__wm">loventure<span class="dot">.</span></div>
+            <div class="case__view">View case <span aria-hidden="true">↗</span></div>
           </div>
           <div class="case__body">
             <h3 class="case__title">Beziehungen brauchen Input.</h3>
