@@ -400,6 +400,127 @@
       .meta__row > .meta__value { border-top: 0; padding-top: 0; padding-bottom: 22px; }
     }
 
+    /* ─── LEISTUNGEN ─── */
+    .section--ink {
+      background: var(--ink);
+      color: var(--paper);
+      position: relative;
+      overflow: hidden;
+    }
+    .section--ink::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(60% 50% at 80% 20%, color-mix(in srgb, var(--indigo) 18%, transparent), transparent 70%);
+      pointer-events: none;
+    }
+    .section--ink > .container { position: relative; z-index: 1; }
+
+    .lst__h {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.02;
+      font-size: clamp(34px, 5.4vw, 68px);
+      max-width: 18ch;
+      margin: 0 0 64px;
+    }
+    .lst__h .ul {
+      position: relative;
+      white-space: nowrap;
+    }
+    .lst__h .ul::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0; bottom: 0.06em;
+      height: 0.18em;
+      background: var(--indigo);
+      z-index: -1;
+      border-radius: 2px;
+    }
+
+    .svc {
+      display: grid;
+      grid-template-columns: 80px 220px 1fr auto;
+      gap: 32px;
+      align-items: center;
+      padding: 28px 24px;
+      border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+      transition: background 0.28s var(--ease), padding 0.28s var(--ease), transform 0.28s var(--ease);
+      cursor: pointer;
+      color: var(--paper);
+    }
+    .svc:last-of-type { border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
+    .svc:hover {
+      background: color-mix(in srgb, var(--indigo) 10%, transparent);
+      padding-left: 32px;
+    }
+    .svc__num {
+      font-family: var(--f-mono);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      color: var(--indigo-soft);
+    }
+    .svc__num em {
+      display: block;
+      color: var(--stone);
+      font-style: normal;
+      font-size: 10px;
+      margin-top: 4px;
+    }
+    .svc__name {
+      font-family: var(--f-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: clamp(22px, 2.4vw, 30px);
+    }
+    .svc__desc {
+      color: color-mix(in srgb, var(--paper) 70%, transparent);
+      font-size: 16px;
+      max-width: 56ch;
+    }
+    .svc__arrow {
+      font-family: var(--f-display);
+      font-size: 28px;
+      transition: transform 0.28s var(--ease);
+      color: var(--paper);
+    }
+    .svc:hover .svc__arrow { transform: translate(8px, -2px); }
+
+    .svc--addon {
+      margin-top: 28px;
+      padding: 18px 24px;
+      border: 1px dashed color-mix(in srgb, var(--paper) 22%, transparent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: color-mix(in srgb, var(--paper) 60%, transparent);
+      font-size: 14px;
+    }
+    .svc--addon .tag {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--indigo-soft);
+    }
+
+    @media (max-width: 960px) {
+      .svc {
+        grid-template-columns: 80px 1fr auto;
+      }
+      .svc__name { grid-column: 2 / 3; }
+      .svc__desc { grid-column: 2 / 4; }
+    }
+    @media (max-width: 600px) {
+      .svc { grid-template-columns: 60px 1fr; gap: 16px; padding: 24px 0; }
+      .svc:hover { padding-left: 0; background: transparent; }
+      .svc__arrow { display: none; }
+      .svc__desc { grid-column: 1 / -1; }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -516,6 +637,45 @@
           <div class="meta__label">Ergebnis</div>
           <div class="meta__value">Ein System statt vieler Insellösungen.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── LEISTUNGEN ─── -->
+  <section class="section section--ink" id="leistungen">
+    <div class="container">
+      <p class="mono section__label" data-reveal>02 — Leistungen</p>
+      <h2 class="lst__h" data-reveal>
+        Webapps, Tools &amp; <span class="ul">Automatisierung</span> — gedacht als ein System.
+      </h2>
+
+      <div class="svc-list" role="list">
+        <a class="svc" href="#kontakt" data-reveal role="listitem">
+          <div class="svc__num">01<em>Kern</em></div>
+          <div class="svc__name">Webapps &amp; interne Tools</div>
+          <div class="svc__desc">Maßgeschneiderte Web-Apps, die Prozesse ersetzen — Schichtplan, Onboarding, Reporting.</div>
+          <span class="svc__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="svc" href="#kontakt" data-reveal role="listitem">
+          <div class="svc__num">02<em>Kern</em></div>
+          <div class="svc__name">Automatisierungen &amp; Workflows</div>
+          <div class="svc__desc">Wir verbinden bestehende Tools, automatisieren Routinen, bauen Schnittstellen.</div>
+          <span class="svc__arrow" aria-hidden="true">↗</span>
+        </a>
+        <a class="svc" href="#kontakt" data-reveal role="listitem">
+          <div class="svc__num">03<em>Schicht</em></div>
+          <div class="svc__name">Websites mit System</div>
+          <div class="svc__desc">Eine Website, die nicht isoliert steht — verbunden mit eurem Stack.</div>
+          <span class="svc__arrow" aria-hidden="true">↗</span>
+        </a>
+      </div>
+
+      <div class="svc--addon" data-reveal>
+        <div>
+          <span class="tag">+ Nebenleistung</span>
+          &nbsp; Social Media &amp; Content
+        </div>
+        <span class="tag">Add-on</span>
       </div>
     </div>
   </section>
