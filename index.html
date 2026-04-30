@@ -308,6 +308,42 @@
       .hero__symbol { width: 380px; opacity: 0.35; right: -120px; }
     }
 
+    /* ─── MARQUEE ─── */
+    .marquee {
+      background: var(--ink);
+      color: var(--paper);
+      overflow: hidden;
+      padding-block: 36px;
+      border-block: 1px solid color-mix(in srgb, var(--paper) 8%, transparent);
+    }
+    .marquee__track {
+      display: flex;
+      gap: 48px;
+      width: max-content;
+      animation: marquee 38s linear infinite;
+      will-change: transform;
+    }
+    .marquee__group {
+      display: flex;
+      gap: 48px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .marquee span {
+      font-family: var(--f-display);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      font-size: clamp(36px, 6vw, 76px);
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .marquee .star { color: var(--indigo); }
+    .marquee .quote { font-family: var(--f-italic); font-style: italic; color: var(--indigo-soft); font-weight: 400; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -377,6 +413,26 @@
       </div>
     </div>
   </header>
+
+  <!-- ─── MARQUEE ─── -->
+  <section class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        <span>Webapps</span><span class="star">✦</span>
+        <span>Automatisierung</span><span class="star">✦</span>
+        <span>Interne Tools</span><span class="star">✦</span>
+        <span>Workflows</span><span class="star">✦</span>
+        <span class="quote">ein System statt vieler Insellösungen</span><span class="star">✦</span>
+      </div>
+      <div class="marquee__group" aria-hidden="true">
+        <span>Webapps</span><span class="star">✦</span>
+        <span>Automatisierung</span><span class="star">✦</span>
+        <span>Interne Tools</span><span class="star">✦</span>
+        <span>Workflows</span><span class="star">✦</span>
+        <span class="quote">ein System statt vieler Insellösungen</span><span class="star">✦</span>
+      </div>
+    </div>
+  </section>
 
 </body>
 </html>
