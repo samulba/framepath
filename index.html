@@ -521,6 +521,43 @@
       .svc__desc { grid-column: 1 / -1; }
     }
 
+    /* ─── BIG STAT ─── */
+    .stat {
+      text-align: center;
+      padding-block: clamp(120px, 16vw, 220px);
+    }
+    .stat__pre {
+      color: var(--stone);
+      margin-bottom: 56px;
+    }
+    .stat__num {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      line-height: 0.85;
+      font-size: clamp(140px, 30vw, 480px);
+      margin: 0;
+    }
+    .stat__num .h {
+      font-family: var(--f-italic);
+      font-style: italic;
+      color: var(--indigo);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+    .stat__cap {
+      font-family: var(--f-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: clamp(22px, 2.6vw, 32px);
+      margin: 36px auto 0;
+      max-width: 22ch;
+    }
+    .stat__foot {
+      color: var(--stone);
+      margin-top: 28px;
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -677,6 +714,16 @@
         </div>
         <span class="tag">Add-on</span>
       </div>
+    </div>
+  </section>
+
+  <!-- ─── BIG STAT ─── -->
+  <section class="stat">
+    <div class="container">
+      <p class="mono stat__pre" data-reveal>→ Case · Creworga</p>
+      <p class="stat__num" data-reveal>47<span class="h">h</span></p>
+      <p class="stat__cap" data-reveal>Excel-Arbeit pro Woche eingespart.</p>
+      <p class="mono stat__foot" data-reveal>Ein Schichtplan-Tool · Gebaut für ein Münchner Fitnessstudio</p>
     </div>
   </section>
 
