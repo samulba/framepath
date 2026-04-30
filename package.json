@@ -1,0 +1,12 @@
+{
+  "name": "framepath",
+  "version": "0.1.0",
+  "private": true,
+  "description": "framepath. — Digitalstudio aus München. Marketing-Site.",
+  "scripts": {
+    "dev": "live-server --port=3000 --open=/index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
