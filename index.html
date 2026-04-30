@@ -558,6 +558,138 @@
       margin-top: 28px;
     }
 
+    /* ─── CASES ─── */
+    .section--soft { background: var(--soft); }
+
+    .cases__h {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      font-size: clamp(40px, 7vw, 92px);
+      margin: 0 0 64px;
+    }
+    .cases__h .l2 { display: block; }
+
+    .cases__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+    }
+    .case {
+      background: var(--paper);
+      border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.28s var(--ease), border-color 0.28s var(--ease), box-shadow 0.28s var(--ease);
+      display: block;
+      color: inherit;
+    }
+    .case:hover {
+      transform: translateY(-6px);
+      border-color: var(--ink);
+    }
+
+    .case__cover {
+      position: relative;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background:
+        linear-gradient(transparent 31px, color-mix(in srgb, currentColor 6%, transparent) 32px),
+        linear-gradient(90deg, transparent 31px, color-mix(in srgb, currentColor 6%, transparent) 32px);
+      background-size: 32px 32px;
+      color: var(--paper);
+    }
+    .case--ink .case__cover { background-color: var(--ink); color: var(--paper); }
+    .case--ink-soft .case__cover { background-color: var(--ink-soft); color: var(--paper); }
+    .case--indigo .case__cover { background-color: var(--indigo); color: var(--paper); }
+
+    .case__frame {
+      position: absolute;
+      inset: 22px;
+      border: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+      border-radius: 6px;
+      transition: inset 0.32s var(--ease), border-color 0.32s var(--ease);
+      pointer-events: none;
+    }
+    .case:hover .case__frame {
+      inset: 14px;
+      border-color: color-mix(in srgb, currentColor 55%, transparent);
+    }
+
+    .case__corner, .case__status {
+      position: absolute;
+      top: 32px;
+      font-family: var(--f-mono);
+      font-weight: 500;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, currentColor 75%, transparent);
+      transition: transform 0.32s var(--ease);
+    }
+    .case__corner { left: 36px; }
+    .case__status { right: 36px; display: inline-flex; align-items: center; gap: 6px; }
+    .case:hover .case__corner { transform: scale(1.06); }
+    .case__status .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor;
+    }
+    .case--live .case__status .dot { background: #22c55e; }
+
+    .case__wm {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: clamp(36px, 7vw, 80px);
+      text-transform: lowercase;
+      color: currentColor;
+      text-align: center;
+      padding: 0 24px;
+    }
+    .case__wm .dot { color: var(--indigo); }
+    .case--indigo .case__wm .dot { color: var(--paper); }
+
+    .case__body {
+      padding: 26px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .case__title {
+      font-family: var(--f-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: clamp(20px, 2vw, 26px);
+      margin: 0;
+    }
+    .case__tags {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .case__tags .sep { opacity: 0.4; margin-inline: 6px; }
+    .case__link {
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--indigo-deep);
+      align-self: flex-start;
+      transition: color 0.2s var(--ease);
+    }
+    .case__link:hover { color: var(--ink); }
+
+    @media (max-width: 720px) {
+      .cases__grid { grid-template-columns: 1fr; }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -724,6 +856,77 @@
       <p class="stat__num" data-reveal>47<span class="h">h</span></p>
       <p class="stat__cap" data-reveal>Excel-Arbeit pro Woche eingespart.</p>
       <p class="mono stat__foot" data-reveal>Ein Schichtplan-Tool · Gebaut für ein Münchner Fitnessstudio</p>
+    </div>
+  </section>
+
+  <!-- ─── CASES ─── -->
+  <section class="section section--soft" id="cases">
+    <div class="container">
+      <p class="mono section__label" data-reveal>03 — Cases</p>
+      <h2 class="cases__h" data-reveal>
+        Systeme,
+        <span class="l2 italic indigo">die wirken.</span>
+      </h2>
+
+      <div class="cases__grid">
+        <!-- 01 creworga -->
+        <a class="case case--ink" href="#kontakt" data-reveal>
+          <div class="case__cover">
+            <div class="case__frame"></div>
+            <div class="case__corner">Case 01</div>
+            <div class="case__status"><span class="dot"></span>Demnächst</div>
+            <div class="case__wm">creworga<span class="dot">.</span></div>
+          </div>
+          <div class="case__body">
+            <h3 class="case__title">Schichtplanung als System.</h3>
+            <p class="case__tags">Webapp <span class="sep">/</span> HR <span class="sep">/</span> Bubble.io</p>
+          </div>
+        </a>
+
+        <!-- 02 djlearn -->
+        <a class="case case--indigo case--live" href="https://www.djlearn.de" target="_blank" rel="noopener" data-reveal>
+          <div class="case__cover">
+            <div class="case__frame"></div>
+            <div class="case__corner">Case 02</div>
+            <div class="case__status"><span class="dot"></span>Live</div>
+            <div class="case__wm">djlearn<span class="dot">.</span></div>
+          </div>
+          <div class="case__body">
+            <h3 class="case__title">Vom Beat zum Club-Ready DJ.</h3>
+            <p class="case__tags">Webapp <span class="sep">/</span> E-Learning <span class="sep">/</span> Gamification</p>
+            <span class="case__link">djlearn.de ↗</span>
+          </div>
+        </a>
+
+        <!-- 03 v-itness academy -->
+        <a class="case case--ink-soft case--live" href="https://www.vitness-academy.de" target="_blank" rel="noopener" data-reveal>
+          <div class="case__cover">
+            <div class="case__frame"></div>
+            <div class="case__corner">Case 03</div>
+            <div class="case__status"><span class="dot"></span>Live</div>
+            <div class="case__wm">v-itness academy<span class="dot">.</span></div>
+          </div>
+          <div class="case__body">
+            <h3 class="case__title">Onboarding ohne Chaos.</h3>
+            <p class="case__tags">Website + App <span class="sep">/</span> E-Learning <span class="sep">/</span> Wix</p>
+            <span class="case__link">vitness-academy.de ↗</span>
+          </div>
+        </a>
+
+        <!-- 04 loventure -->
+        <a class="case case--ink" href="#kontakt" data-reveal>
+          <div class="case__cover">
+            <div class="case__frame"></div>
+            <div class="case__corner">Case 04</div>
+            <div class="case__status"><span class="dot"></span>Demnächst</div>
+            <div class="case__wm">loventure<span class="dot">.</span></div>
+          </div>
+          <div class="case__body">
+            <h3 class="case__title">Beziehungen brauchen Input.</h3>
+            <p class="case__tags">Webapp <span class="sep">/</span> Lifestyle <span class="sep">/</span> B2C</p>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
