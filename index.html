@@ -39,7 +39,15 @@
     /* ─── RESET ─── */
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
-    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
     body {
       background: var(--paper);
       color: var(--ink);
@@ -876,14 +884,51 @@
       mix-blend-mode: difference;
       z-index: 10000;
       transform: translate(-50%, -50%);
-      transition: width 0.24s var(--ease), height 0.24s var(--ease), background 0.24s var(--ease);
+      transition: width 0.28s var(--ease), height 0.28s var(--ease), background 0.28s var(--ease);
+    }
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1px solid color-mix(in srgb, var(--ink) 35%, transparent);
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: width 0.32s var(--ease), height 0.32s var(--ease), border-color 0.32s var(--ease), opacity 0.28s var(--ease), backdrop-filter 0.32s var(--ease);
+      backdrop-filter: invert(0) saturate(1);
+      -webkit-backdrop-filter: invert(0) saturate(1);
     }
     .cursor.is-hover {
-      width: 36px; height: 36px;
+      width: 0; height: 0;
       background: var(--indigo);
+      opacity: 0;
+    }
+    .cursor-ring.is-hover {
+      width: 64px; height: 64px;
+      border-color: var(--indigo);
+      backdrop-filter: invert(0.1) saturate(1.1);
+      -webkit-backdrop-filter: invert(0.1) saturate(1.1);
+    }
+    .cursor-ring.is-press {
+      width: 28px; height: 28px;
+      border-color: var(--indigo-deep);
     }
     @media (max-width: 860px), (hover: none) {
-      .cursor { display: none; }
+      .cursor, .cursor-ring { display: none; }
+    }
+
+    /* ─── SCROLL PROGRESS ─── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0;
+      background: linear-gradient(90deg, var(--indigo) 0%, var(--indigo-deep) 100%);
+      z-index: 200;
+      pointer-events: none;
+      transition: width 0.05s linear;
+      box-shadow: 0 0 12px color-mix(in srgb, var(--indigo) 60%, transparent);
     }
 
     /* ─── GRAIN OVERLAY ─── */
@@ -903,7 +948,11 @@
   <!-- ─── GRAIN OVERLAY ─── -->
   <div class="grain" aria-hidden="true"></div>
 
+  <!-- ─── SCROLL PROGRESS ─── -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
   <!-- ─── CUSTOM CURSOR ─── -->
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
   <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- ─── NAV ─── -->
@@ -1248,22 +1297,40 @@
     }, { threshold: 0.12 });
     document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
 
+    // ─── SCROLL PROGRESS ───
+    const sp = document.getElementById('scrollProgress');
+    function updateProgress() {
+      const h = document.documentElement;
+      const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+      sp.style.width = pct + '%';
+    }
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+
     // ─── CUSTOM CURSOR + MAGNETIC ───
     if (isFinePointer && isDesktop) {
       const cursor = document.getElementById('cursor');
+      const ring = document.getElementById('cursorRing');
       let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
       let cx = tx, cy = ty;
-      const lerp = 0.18;
+      let rx = tx, ry = ty;
+      const dotLerp = 0.32;
+      const ringLerp = 0.14;
 
       window.addEventListener('mousemove', (e) => {
         tx = e.clientX;
         ty = e.clientY;
       });
+      window.addEventListener('mousedown', () => ring.classList.add('is-press'));
+      window.addEventListener('mouseup', () => ring.classList.remove('is-press'));
 
       function tick() {
-        cx += (tx - cx) * lerp;
-        cy += (ty - cy) * lerp;
+        cx += (tx - cx) * dotLerp;
+        cy += (ty - cy) * dotLerp;
+        rx += (tx - rx) * ringLerp;
+        ry += (ty - ry) * ringLerp;
         cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+        ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
@@ -1271,8 +1338,14 @@
       // hover targets expand cursor
       const hoverSel = 'a, button, [data-magnetic], .case, .svc';
       document.querySelectorAll(hoverSel).forEach((el) => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+        el.addEventListener('mouseenter', () => {
+          cursor.classList.add('is-hover');
+          ring.classList.add('is-hover');
+        });
+        el.addEventListener('mouseleave', () => {
+          cursor.classList.remove('is-hover');
+          ring.classList.remove('is-hover');
+        });
       });
 
       // magnetic buttons
