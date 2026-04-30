@@ -198,13 +198,28 @@
       transition: background 0.24s var(--ease), color 0.24s var(--ease), transform 0.18s var(--ease), border-color 0.24s var(--ease);
       will-change: transform;
     }
+    .btn {
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--indigo-deep);
+      transform: translateY(101%);
+      transition: transform 0.42s var(--ease);
+      z-index: -1;
+      border-radius: inherit;
+    }
+    .btn:hover::before { transform: translateY(0); }
     .btn--primary {
       background: var(--ink);
       color: var(--paper);
       border: 1px solid var(--ink);
     }
     .btn--primary:hover {
-      background: var(--indigo-deep);
       border-color: var(--indigo-deep);
     }
     .btn--ghost {
@@ -212,10 +227,11 @@
       color: var(--ink);
     }
     .btn--ghost:hover {
-      border-color: var(--ink);
+      color: var(--paper);
+      border-color: var(--indigo-deep);
     }
-    .btn .arrow { display: inline-block; transition: transform 0.24s var(--ease); }
-    .btn:hover .arrow { transform: translate(2px, -2px); }
+    .btn .arrow { display: inline-block; transition: transform 0.32s var(--ease); }
+    .btn:hover .arrow { transform: translate(3px, -3px) rotate(0deg); }
 
     @media (max-width: 860px) {
       .nav__links { display: none; }
@@ -911,8 +927,19 @@
       line-height: 0.85;
       margin: 0 0 80px;
       color: var(--paper);
+      display: inline-block;
+      cursor: default;
+      transition: letter-spacing 0.6s var(--ease);
     }
-    .footer__wm .dot { color: var(--indigo); }
+    .footer__wm:hover { letter-spacing: -0.04em; }
+    .footer__wm .dot {
+      color: var(--indigo);
+      display: inline-block;
+      transition: transform 0.5s var(--ease);
+    }
+    .footer__wm:hover .dot {
+      transform: translateY(-0.08em) scale(1.18);
+    }
     .footer__grid {
       display: grid;
       grid-template-columns: 1.4fr 1fr 1fr 1fr;
@@ -971,6 +998,24 @@
     [data-reveal].is-in {
       opacity: 1;
       transform: translateY(0);
+    }
+    /* Word-stagger reveal */
+    [data-words] { opacity: 1; transform: none; }
+    [data-words] .word {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      line-height: inherit;
+    }
+    [data-words] .word > span {
+      display: inline-block;
+      transform: translateY(110%);
+      opacity: 0;
+      transition: transform 0.95s var(--ease), opacity 0.6s var(--ease);
+    }
+    [data-words].is-in .word > span {
+      transform: translateY(0);
+      opacity: 1;
     }
 
     /* ─── CUSTOM CURSOR ─── */
@@ -1132,7 +1177,7 @@
   <section class="section" id="studio">
     <div class="container">
       <p class="mono section__label" data-reveal>01 — Positionierung</p>
-      <h2 class="pos__quote" data-reveal>
+      <h2 class="pos__quote" data-words>
         Wir bauen das System.
         <span class="l2 italic indigo">Nicht die Show.</span>
       </h2>
@@ -1162,7 +1207,7 @@
   <section class="section section--ink" id="leistungen">
     <div class="container">
       <p class="mono section__label" data-reveal>02 — Leistungen</p>
-      <h2 class="lst__h" data-reveal>
+      <h2 class="lst__h" data-words>
         Webapps, Tools &amp; <span class="ul">Automatisierung</span> — gedacht als ein System.
       </h2>
 
@@ -1211,7 +1256,7 @@
   <section class="section section--soft" id="cases">
     <div class="container">
       <p class="mono section__label" data-reveal>03 — Cases</p>
-      <h2 class="cases__h" data-reveal>
+      <h2 class="cases__h" data-words>
         Systeme,
         <span class="l2 italic indigo">die wirken.</span>
       </h2>
@@ -1282,7 +1327,7 @@
   <section class="section section--ink">
     <div class="container">
       <p class="mono section__label" data-reveal>04 — Versprechen</p>
-      <h2 class="promise__h" data-reveal>
+      <h2 class="promise__h" data-words>
         Was du von uns
         <span class="italic indigo">erwarten kannst.</span>
       </h2>
@@ -1319,7 +1364,7 @@
     </div>
     <div class="container cta__inner">
       <p class="mono section__label" data-reveal>05 — Kontakt</p>
-      <h2 class="cta__h" data-reveal>
+      <h2 class="cta__h" data-words>
         Bereit für ein System,
         <span class="italic indigo">das wirklich funktioniert?</span>
       </h2>
@@ -1386,6 +1431,44 @@
     const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
     const isDesktop = matchMedia('(min-width: 861px)').matches;
 
+    // ─── WORD SPLIT (for headline reveals) ───
+    function splitWords(node) {
+      // Recursively walk: text nodes get split into <span class="word"><span>word</span></span>
+      // Element nodes are preserved (so italic/indigo wrappers survive).
+      const walk = (n) => {
+        const kids = [...n.childNodes];
+        kids.forEach((k) => {
+          if (k.nodeType === Node.TEXT_NODE) {
+            const text = k.textContent;
+            if (!text.trim()) return;
+            const frag = document.createDocumentFragment();
+            const parts = text.split(/(\s+)/);
+            parts.forEach((p) => {
+              if (/^\s+$/.test(p)) {
+                frag.appendChild(document.createTextNode(p));
+              } else if (p.length) {
+                const w = document.createElement('span');
+                w.className = 'word';
+                const inner = document.createElement('span');
+                inner.textContent = p;
+                w.appendChild(inner);
+                frag.appendChild(w);
+              }
+            });
+            k.replaceWith(frag);
+          } else if (k.nodeType === Node.ELEMENT_NODE) {
+            walk(k);
+          }
+        });
+      };
+      walk(node);
+      // Stagger delays
+      node.querySelectorAll('.word > span').forEach((s, i) => {
+        s.style.transitionDelay = (i * 0.045) + 's';
+      });
+    }
+    document.querySelectorAll('[data-words]').forEach(splitWords);
+
     // ─── COUNTERS ───
     function animateCount(el) {
       const target = +el.dataset.count;
@@ -1419,7 +1502,7 @@
         }
       });
     }, { threshold: 0.12 });
-    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    document.querySelectorAll('[data-reveal], [data-words]').forEach((el) => io.observe(el));
 
     // ─── CASE TILT + COVER LIGHT ───
     if (isFinePointer) {
