@@ -602,7 +602,11 @@
       background: var(--indigo);
       z-index: -1;
       border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.9s var(--ease) 0.35s;
     }
+    .lst__h.is-in .ul::after { transform: scaleX(1); }
 
     .svc-list { overflow: hidden; }
     .svc {
