@@ -733,6 +733,59 @@
       .promise__grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── CTA ─── */
+    .cta {
+      position: relative;
+      overflow: hidden;
+    }
+    .cta__bg {
+      position: absolute;
+      left: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 680px;
+      max-width: 60vw;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+    .cta__bg svg { width: 100%; height: auto; }
+    .cta__bg .stroke { fill: none; stroke: var(--ink); stroke-width: 9; }
+    .cta__bg .endpoint { fill: var(--ink); }
+
+    .cta__inner { position: relative; z-index: 1; }
+    .cta__h {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      font-size: clamp(40px, 7vw, 96px);
+      max-width: 16ch;
+      margin: 0 0 56px;
+    }
+    .cta__row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 28px;
+    }
+    .cta__hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--stone);
+      font-size: 14px;
+    }
+    .cta__mail {
+      font-family: var(--f-mono);
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 2px;
+      transition: color 0.2s var(--ease), border-color 0.2s var(--ease);
+    }
+    .cta__mail:hover { color: var(--indigo-deep); border-bottom-color: var(--indigo-deep); }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -998,6 +1051,30 @@
           <p class="promise__num">04</p>
           <h3 class="promise__title">Ergebnisse statt Ästhetik.</h3>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CTA ─── -->
+  <section class="section cta" id="kontakt">
+    <div class="cta__bg" aria-hidden="true">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <rect class="stroke" x="40" y="40" width="320" height="320" />
+        <path class="stroke" d="M 110 110 L 110 200 L 290 200 L 290 290" />
+        <circle class="endpoint" cx="110" cy="110" r="11" />
+        <circle class="endpoint" cx="290" cy="290" r="11" />
+      </svg>
+    </div>
+    <div class="container cta__inner">
+      <p class="mono section__label" data-reveal>05 — Kontakt</p>
+      <h2 class="cta__h" data-reveal>
+        Bereit für ein System,
+        <span class="italic indigo">das wirklich funktioniert?</span>
+      </h2>
+      <div class="cta__row" data-reveal>
+        <a class="btn btn--primary" href="mailto:hallo@framepath.de" data-magnetic>Erstgespräch sichern <span class="arrow">↗</span></a>
+        <span class="cta__hint"><span class="pulse" aria-hidden="true"></span> Antwort in 24–48h</span>
+        <a class="cta__mail" href="mailto:hallo@framepath.de">hallo@framepath.de</a>
       </div>
     </div>
   </section>
