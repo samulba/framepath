@@ -90,8 +90,23 @@
       font-weight: 800;
       letter-spacing: -0.04em;
       text-transform: lowercase;
+      display: inline-block;
     }
-    .wm .dot { color: var(--indigo); }
+    .wm .dot {
+      color: var(--indigo);
+      display: inline-block;
+      transition: transform 0.4s var(--ease);
+    }
+    .wm:hover .dot {
+      animation: dotBounce 0.7s var(--ease);
+    }
+    @keyframes dotBounce {
+      0%   { transform: translateY(0)    scale(1); }
+      30%  { transform: translateY(-0.18em) scale(1.25); }
+      55%  { transform: translateY(0.05em)  scale(0.9); }
+      75%  { transform: translateY(-0.06em) scale(1.08); }
+      100% { transform: translateY(0)    scale(1); }
+    }
 
     /* ─── NAV ─── */
     .nav {
@@ -281,13 +296,23 @@
       position: absolute;
       right: -60px;
       top: 50%;
-      transform: translateY(-50%);
       width: 720px;
       max-width: 60vw;
       pointer-events: none;
       z-index: 1;
+      --px: 0;
+      --py: 0;
+      transform: translate(calc(var(--px) * 1px), calc(-50% + var(--py) * 1px));
+      transition: transform 0.45s var(--ease);
     }
-    .hero__symbol svg { width: 100%; height: auto; overflow: visible; }
+    .hero__symbol svg {
+      width: 100%; height: auto; overflow: visible;
+      animation: floatY 9s ease-in-out infinite;
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-14px); }
+    }
     .hero__symbol .stroke {
       fill: none;
       stroke: var(--ink);
@@ -1296,6 +1321,17 @@
       });
     }, { threshold: 0.12 });
     document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+    // ─── HERO PARALLAX ───
+    const heroSymbol = document.querySelector('.hero__symbol');
+    if (heroSymbol && isFinePointer) {
+      window.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 2;   // -1..1
+        const y = (e.clientY / window.innerHeight - 0.5) * 2;
+        heroSymbol.style.setProperty('--px', (x * -22).toFixed(1));
+        heroSymbol.style.setProperty('--py', (y * -16).toFixed(1));
+      });
+    }
 
     // ─── SCROLL PROGRESS ───
     const sp = document.getElementById('scrollProgress');
