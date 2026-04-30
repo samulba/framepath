@@ -853,6 +853,39 @@
       .footer__grid { grid-template-columns: 1fr; }
     }
 
+    /* ─── REVEAL ─── */
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+      will-change: opacity, transform;
+    }
+    [data-reveal].is-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    .cursor {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--ink);
+      pointer-events: none;
+      mix-blend-mode: difference;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.24s var(--ease), height 0.24s var(--ease), background 0.24s var(--ease);
+    }
+    .cursor.is-hover {
+      width: 36px; height: 36px;
+      background: var(--indigo);
+    }
+    @media (max-width: 860px), (hover: none) {
+      .cursor { display: none; }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -869,6 +902,9 @@
 
   <!-- ─── GRAIN OVERLAY ─── -->
   <div class="grain" aria-hidden="true"></div>
+
+  <!-- ─── CUSTOM CURSOR ─── -->
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
 
   <!-- ─── NAV ─── -->
   <nav class="nav">
@@ -1192,6 +1228,67 @@
       </div>
     </div>
   </footer>
+
+  <!-- ─── INTERACTIONS ─── -->
+  <script>
+    // dynamic year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    const isFinePointer = matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const isDesktop = matchMedia('(min-width: 861px)').matches;
+
+    // ─── SCROLL REVEAL ───
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+    // ─── CUSTOM CURSOR + MAGNETIC ───
+    if (isFinePointer && isDesktop) {
+      const cursor = document.getElementById('cursor');
+      let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+      let cx = tx, cy = ty;
+      const lerp = 0.18;
+
+      window.addEventListener('mousemove', (e) => {
+        tx = e.clientX;
+        ty = e.clientY;
+      });
+
+      function tick() {
+        cx += (tx - cx) * lerp;
+        cy += (ty - cy) * lerp;
+        cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      // hover targets expand cursor
+      const hoverSel = 'a, button, [data-magnetic], .case, .svc';
+      document.querySelectorAll(hoverSel).forEach((el) => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
+      });
+
+      // magnetic buttons
+      document.querySelectorAll('[data-magnetic]').forEach((el) => {
+        el.addEventListener('mousemove', (e) => {
+          const r = el.getBoundingClientRect();
+          const x = e.clientX - (r.left + r.width / 2);
+          const y = e.clientY - (r.top + r.height / 2);
+          el.style.transform = `translate(${x * 0.18}px, ${y * 0.25}px)`;
+        });
+        el.addEventListener('mouseleave', () => {
+          el.style.transform = '';
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>
