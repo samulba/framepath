@@ -503,26 +503,29 @@
       border-radius: 2px;
     }
 
+    .svc-list { overflow: hidden; }
     .svc {
       display: grid;
-      grid-template-columns: 80px 220px 1fr auto;
-      gap: 32px;
+      grid-template-columns: 96px 260px 1fr auto;
+      gap: 28px;
       align-items: center;
-      padding: 28px 24px;
+      padding: 36px 24px;
       border-top: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
-      transition: padding 0.32s var(--ease), transform 0.32s var(--ease);
+      transition: padding 0.34s var(--ease), background 0.34s var(--ease);
       cursor: pointer;
       color: var(--paper);
       position: relative;
       isolation: isolate;
+      overflow: hidden;
     }
     .svc::before {
       content: "";
       position: absolute;
       inset: 0;
-      background: color-mix(in srgb, var(--indigo) 14%, transparent);
-      transform: translateX(-101%);
-      transition: transform 0.55s var(--ease);
+      background: color-mix(in srgb, var(--indigo) 16%, transparent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.6s var(--ease);
       z-index: -1;
     }
     .svc::after {
@@ -533,48 +536,84 @@
       background: var(--indigo);
       transform: scaleY(0);
       transform-origin: top;
-      transition: transform 0.45s var(--ease);
+      transition: transform 0.5s var(--ease) 0.05s;
     }
     .svc:last-of-type { border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); }
-    .svc:hover {
-      padding-left: 38px;
-    }
-    .svc:hover::before { transform: translateX(0); }
+    .svc:hover { padding-left: 44px; }
+    .svc:hover::before { transform: scaleX(1); }
     .svc:hover::after { transform: scaleY(1); }
-    .svc__name, .svc__num, .svc__desc, .svc__arrow { transition: transform 0.32s var(--ease), color 0.32s var(--ease); }
+    .svc__name, .svc__num, .svc__desc, .svc__arrow { transition: transform 0.34s var(--ease), color 0.34s var(--ease); }
     .svc:hover .svc__name { color: var(--paper); }
-    .svc:hover .svc__num { color: var(--indigo); }
+    .svc:hover .svc__num strong { color: var(--paper); }
+    .svc:hover .svc__num em { color: var(--indigo-soft); }
+    .svc:hover .svc__arrow { transform: translate(8px, -2px); }
     .svc__num {
-      font-family: var(--f-mono);
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      color: var(--indigo-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      align-items: flex-start;
+    }
+    .svc__num strong {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: clamp(40px, 4vw, 56px);
+      line-height: 0.9;
+      color: color-mix(in srgb, var(--paper) 36%, transparent);
     }
     .svc__num em {
-      display: block;
-      color: var(--stone);
+      font-family: var(--f-mono);
       font-style: normal;
+      font-weight: 500;
       font-size: 10px;
-      margin-top: 4px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--stone);
     }
     .svc__name {
       font-family: var(--f-display);
       font-weight: 700;
       letter-spacing: -0.02em;
-      font-size: clamp(22px, 2.4vw, 30px);
+      font-size: clamp(22px, 2.4vw, 32px);
+      line-height: 1.05;
+    }
+    .svc__body {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
     }
     .svc__desc {
-      color: color-mix(in srgb, var(--paper) 70%, transparent);
-      font-size: 16px;
+      color: color-mix(in srgb, var(--paper) 65%, transparent);
+      font-size: 15px;
       max-width: 56ch;
+      line-height: 1.55;
+      margin: 0;
+    }
+    .svc__stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .svc__stack span {
+      font-family: var(--f-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+      color: color-mix(in srgb, var(--paper) 70%, transparent);
+      transition: border-color 0.32s var(--ease), color 0.32s var(--ease);
+    }
+    .svc:hover .svc__stack span {
+      border-color: var(--indigo-soft);
+      color: var(--paper);
     }
     .svc__arrow {
       font-family: var(--f-display);
-      font-size: 28px;
-      transition: transform 0.28s var(--ease);
+      font-size: 32px;
       color: var(--paper);
     }
-    .svc:hover .svc__arrow { transform: translate(8px, -2px); }
 
     .svc--addon {
       margin-top: 28px;
@@ -597,17 +636,16 @@
     }
 
     @media (max-width: 960px) {
-      .svc {
-        grid-template-columns: 80px 1fr auto;
-      }
+      .svc { grid-template-columns: 96px 1fr auto; }
       .svc__name { grid-column: 2 / 3; }
-      .svc__desc { grid-column: 2 / 4; }
+      .svc__body { grid-column: 2 / 4; }
     }
     @media (max-width: 600px) {
-      .svc { grid-template-columns: 60px 1fr; gap: 16px; padding: 24px 0; }
-      .svc:hover { padding-left: 0; background: transparent; }
+      .svc { grid-template-columns: 1fr; gap: 14px; padding: 24px 16px; }
+      .svc:hover { padding-left: 16px; }
       .svc__arrow { display: none; }
-      .svc__desc { grid-column: 1 / -1; }
+      .svc__num { flex-direction: row; align-items: baseline; gap: 12px; }
+      .svc__num strong { font-size: 36px; }
     }
 
     /* ─── BIG STAT ─── */
@@ -1235,21 +1273,36 @@
 
       <div class="svc-list" role="list">
         <a class="svc" href="#kontakt" data-reveal role="listitem">
-          <div class="svc__num">01<em>Kern</em></div>
+          <div class="svc__num"><strong>01</strong><em>Kern</em></div>
           <div class="svc__name">Webapps &amp; interne Tools</div>
-          <div class="svc__desc">Maßgeschneiderte Web-Apps, die Prozesse ersetzen — Schichtplan, Onboarding, Reporting.</div>
+          <div class="svc__body">
+            <p class="svc__desc">Maßgeschneiderte Web-Apps, die Prozesse ersetzen — Schichtplan, Onboarding, Reporting.</p>
+            <div class="svc__stack">
+              <span>Bubble.io</span><span>Supabase</span><span>Next.js</span><span>Auth</span>
+            </div>
+          </div>
           <span class="svc__arrow" aria-hidden="true">↗</span>
         </a>
         <a class="svc" href="#kontakt" data-reveal role="listitem">
-          <div class="svc__num">02<em>Kern</em></div>
+          <div class="svc__num"><strong>02</strong><em>Kern</em></div>
           <div class="svc__name">Automatisierungen &amp; Workflows</div>
-          <div class="svc__desc">Wir verbinden bestehende Tools, automatisieren Routinen, bauen Schnittstellen.</div>
+          <div class="svc__body">
+            <p class="svc__desc">Wir verbinden bestehende Tools, automatisieren Routinen, bauen Schnittstellen.</p>
+            <div class="svc__stack">
+              <span>n8n</span><span>Make</span><span>Zapier</span><span>REST / Webhooks</span>
+            </div>
+          </div>
           <span class="svc__arrow" aria-hidden="true">↗</span>
         </a>
         <a class="svc" href="#kontakt" data-reveal role="listitem">
-          <div class="svc__num">03<em>Schicht</em></div>
+          <div class="svc__num"><strong>03</strong><em>Schicht</em></div>
           <div class="svc__name">Websites mit System</div>
-          <div class="svc__desc">Eine Website, die nicht isoliert steht — verbunden mit eurem Stack.</div>
+          <div class="svc__body">
+            <p class="svc__desc">Eine Website, die nicht isoliert steht — verbunden mit eurem Stack.</p>
+            <div class="svc__stack">
+              <span>Framer</span><span>Webflow</span><span>Wix Studio</span><span>CMS-Anbindung</span>
+            </div>
+          </div>
           <span class="svc__arrow" aria-hidden="true">↗</span>
         </a>
       </div>
