@@ -786,6 +786,73 @@
     }
     .cta__mail:hover { color: var(--indigo-deep); border-bottom-color: var(--indigo-deep); }
 
+    /* ─── FOOTER ─── */
+    .footer {
+      background: var(--ink);
+      color: var(--paper);
+      padding-top: 96px;
+      padding-bottom: 32px;
+      overflow: hidden;
+    }
+    .footer__wm {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      text-transform: lowercase;
+      font-size: clamp(80px, 22vw, 280px);
+      line-height: 0.85;
+      margin: 0 0 80px;
+      color: var(--paper);
+    }
+    .footer__wm .dot { color: var(--indigo); }
+    .footer__grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-block: 48px;
+      border-top: 1px solid color-mix(in srgb, var(--paper) 14%, transparent);
+    }
+    .footer__col h4 {
+      font-family: var(--f-mono);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--indigo-soft);
+      margin: 0 0 18px;
+    }
+    .footer__col p, .footer__col li {
+      color: color-mix(in srgb, var(--paper) 70%, transparent);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .footer__col ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+    .footer__col a { transition: color 0.2s var(--ease); }
+    .footer__col a:hover { color: var(--paper); }
+    .footer__bottom {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      padding-top: 24px;
+      border-top: 1px solid color-mix(in srgb, var(--paper) 8%, transparent);
+      font-family: var(--f-mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: color-mix(in srgb, var(--paper) 50%, transparent);
+    }
+    .footer__bottom a { transition: color 0.2s var(--ease); }
+    .footer__bottom a:hover { color: var(--paper); }
+    .footer__bottom .links { display: flex; gap: 20px; flex-wrap: wrap; }
+
+    @media (max-width: 860px) {
+      .footer__grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .footer__grid { grid-template-columns: 1fr; }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -1078,6 +1145,53 @@
       </div>
     </div>
   </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="footer">
+    <div class="container">
+      <p class="footer__wm" aria-hidden="true">framepath<span class="dot">.</span></p>
+
+      <div class="footer__grid">
+        <div class="footer__col">
+          <h4>Studio</h4>
+          <p>Digitalstudio aus München.<br>Wir bauen Webapps, Automatisierungen und interne Tools — gedacht als ein System.</p>
+        </div>
+        <div class="footer__col">
+          <h4>Systems</h4>
+          <ul>
+            <li><a href="#leistungen">Webapps &amp; Tools</a></li>
+            <li><a href="#leistungen">Automatisierung</a></li>
+            <li><a href="#leistungen">Websites mit System</a></li>
+            <li><a href="#leistungen">Social &amp; Content</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#studio">Positionierung</a></li>
+            <li><a href="#cases">Cases</a></li>
+            <li><a href="#kontakt">Verfügbarkeit</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Kontakt</h4>
+          <ul>
+            <li><a href="mailto:hallo@framepath.de">hallo@framepath.de</a></li>
+            <li>München, DE</li>
+            <li><a href="#kontakt">Erstgespräch sichern ↗</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <span>© <span id="year">2026</span> framepath. Alle Rechte vorbehalten.</span>
+        <div class="links">
+          <a href="#">Impressum</a>
+          <a href="#">Datenschutz</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>
