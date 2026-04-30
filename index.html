@@ -277,6 +277,8 @@
     .hero__h1 .line {
       display: block;
       overflow: hidden;
+      padding-bottom: 0.12em;
+      margin-bottom: -0.12em;
     }
     .hero__h1 .line > span {
       display: inline-block;
@@ -1018,19 +1020,20 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Word-stagger reveal */
+    /* Word-stagger reveal — translate + fade, no clipping mask
+       (overflow:hidden clipped descenders and broke inline pseudo
+       underlines like .ul on 'Automatisierung'). */
     [data-words] { opacity: 1; transform: none; }
     [data-words] .word {
       display: inline-block;
-      overflow: hidden;
-      vertical-align: top;
+      vertical-align: baseline;
       line-height: inherit;
     }
     [data-words] .word > span {
       display: inline-block;
-      transform: translateY(110%);
+      transform: translateY(40%);
       opacity: 0;
-      transition: transform 0.95s var(--ease), opacity 0.6s var(--ease);
+      transition: transform 0.85s var(--ease), opacity 0.55s var(--ease);
     }
     [data-words].is-in .word > span {
       transform: translateY(0);
@@ -1226,7 +1229,7 @@
   <section class="section section--ink" id="leistungen">
     <div class="container">
       <p class="mono section__label" data-reveal>02 — Leistungen</p>
-      <h2 class="lst__h" data-words>
+      <h2 class="lst__h" data-reveal>
         Webapps, Tools &amp; <span class="ul">Automatisierung</span> — gedacht als ein System.
       </h2>
 
