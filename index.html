@@ -344,6 +344,62 @@
       to   { transform: translateX(-50%); }
     }
 
+    /* ─── SECTION SHARED ─── */
+    .section { padding-block: clamp(96px, 12vw, 168px); }
+    .section__label {
+      color: var(--stone);
+      margin-bottom: 40px;
+      display: inline-block;
+    }
+    .section--ink .section__label { color: var(--indigo-soft); }
+
+    /* ─── POSITIONIERUNG ─── */
+    .pos__quote {
+      font-family: var(--f-display);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+      font-size: clamp(48px, 9vw, 120px);
+      margin: 0 0 80px;
+      max-width: 14ch;
+    }
+    .pos__quote .l2 { display: block; }
+    .pos__quote .italic { letter-spacing: -0.02em; font-size: 0.96em; }
+
+    .meta {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 28px 64px;
+      max-width: 1000px;
+    }
+    .meta__row {
+      display: contents;
+    }
+    .meta__row > * {
+      padding-block: 22px;
+      border-top: 1px solid color-mix(in srgb, var(--ink) 14%, transparent);
+    }
+    .meta__label {
+      font-family: var(--f-mono);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 12px;
+      color: var(--stone);
+    }
+    .meta__value {
+      font-family: var(--f-display);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      font-size: clamp(20px, 2.4vw, 28px);
+      line-height: 1.25;
+    }
+    @media (max-width: 720px) {
+      .meta { grid-template-columns: 1fr; gap: 6px 0; }
+      .meta__row > * { padding-block: 16px; }
+      .meta__row > .meta__value { border-top: 0; padding-top: 0; padding-bottom: 22px; }
+    }
+
     /* ─── GRAIN OVERLAY ─── */
     .grain {
       position: fixed;
@@ -430,6 +486,36 @@
         <span>Interne Tools</span><span class="star">✦</span>
         <span>Workflows</span><span class="star">✦</span>
         <span class="quote">ein System statt vieler Insellösungen</span><span class="star">✦</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── POSITIONIERUNG ─── -->
+  <section class="section" id="studio">
+    <div class="container">
+      <p class="mono section__label" data-reveal>01 — Positionierung</p>
+      <h2 class="pos__quote" data-reveal>
+        Wir bauen das System.
+        <span class="l2 italic indigo">Nicht die Show.</span>
+      </h2>
+
+      <div class="meta" data-reveal>
+        <div class="meta__row">
+          <div class="meta__label">Was wir sind</div>
+          <div class="meta__value">Digitalstudio für moderne Unternehmenssysteme.</div>
+        </div>
+        <div class="meta__row">
+          <div class="meta__label">Was wir nicht sind</div>
+          <div class="meta__value">Klassische Webdesign- oder Mediaagentur.</div>
+        </div>
+        <div class="meta__row">
+          <div class="meta__label">Für wen</div>
+          <div class="meta__value">Unternehmen mit verstreuten Tools und Excel-Listen.</div>
+        </div>
+        <div class="meta__row">
+          <div class="meta__label">Ergebnis</div>
+          <div class="meta__value">Ein System statt vieler Insellösungen.</div>
+        </div>
       </div>
     </div>
   </section>
